@@ -5,10 +5,11 @@ import { ErrorDialogService } from '../../shared/errors/error-dialog.service';
 export class GlobalErrorHandler implements ErrorHandler {
   constructor(private errorDialogService: ErrorDialogService) {}
 
+  // Client-side error (network problems and front-end code errors)
   handleError(error: Error): void {
     this.errorDialogService.openDialog(
       error.message || 'Undefined client error'
     );
-    console.error('Error from global error handler', error);
+    console.error('Error from GlobalErrorHandler', error);
   }
 }

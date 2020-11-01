@@ -3,7 +3,7 @@ import {
   HttpRequest,
   HttpEvent,
   HttpErrorResponse,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
@@ -18,6 +18,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     private loadingDialogService: LoadingDialogService
   ) {}
 
+  // Server-side error (AJAX errors, user errors, back-end code errors, database errors, file system errors)
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -25,8 +26,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     this.loadingDialogService.openDialog();
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.error('Error from error interceptor', error);
-        this.errorDialogService.openDialog(error.message ?? JSON.stringify(error), error.status);
+        console.error('Error from HttpErrorInterceptor', error);
+        this.errorDialogService.openDialog(
+          error.message ?? JSON.stringify(error),
+          error.status
+        );
         return throwError(error);
       }),
       finalize(() => {
