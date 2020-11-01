@@ -5,7 +5,7 @@ import { ErrorDialogService } from '../../shared/errors/error-dialog.service';
 export class GlobalErrorHandler implements ErrorHandler {
   constructor(private errorDialogService: ErrorDialogService) {}
 
-  handleError(error: Error) {
+  handleError(error: Error): void {
     this.errorDialogService.openDialog(
       error.message || 'Undefined client error'
     );
